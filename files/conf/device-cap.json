@@ -1,0 +1,20 @@
+{
+  "videoCapabilities":{
+      "maxResolution":{
+        "w":1920,
+        "h":1080,
+        "freq":60
+      },
+      "minResolution" :{
+        "w":0,
+        "h":0,
+        "freq":60
+      }
+  },
+  "planes" : [
+    "DISP0_MAIN",
+    "DISP0_SUB0",
+    "DISP0_SUB1",
+    "DISP0_SUB2"
+  ]
+}
