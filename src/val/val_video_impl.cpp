@@ -270,9 +270,6 @@ void val_video_impl::updatePlanes() // callback function
             if (mDeviceCapability.getMaxResolution().h >= max.h || mDeviceCapability.getMaxResolution().w >= max.w) {
                 p.maxSizeT = max;
             }
-            if (mDeviceCapability.getMinResolution().h <= min.h || mDeviceCapability.getMinResolution().w <= min.w) {
-                p.minSizeT = min;
-            }
         }
     }
 }
