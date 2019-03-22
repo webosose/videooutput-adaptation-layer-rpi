@@ -296,17 +296,21 @@ pbnjson::JValue val_video_impl::getParam(std::string control, pbnjson::JValue pa
 {
     int ret       = false;
     int wId_param = 0;
+    bool wIdSet = false;
     VAL_VIDEO_WID_T wId;
 
-    LSHelpers::JsonParser parser{param};
+    if (wIdSet = param.hasKey("wId"))
+        wId_param = param["wId"].asNumber<int>();
 
-    parser.get("wId", wId_param).optional(true);
     LOG_DEBUG("getParam control : %s for wId:%d", control.c_str(), wId_param);
 
     if (control == VAL_CTRL_DRM_RESOURCES) {
         int planeId = 0;
         int crtcId  = 0;
         int connId  = 0;
+
+        if (!wIdSet)
+            return pbnjson::JValue{{"returnValue", false}};
 
         wId = static_cast<VAL_VIDEO_WID_T>(wId_param);
 
@@ -330,8 +334,6 @@ pbnjson::JValue val_video_impl::getParam(std::string control, pbnjson::JValue pa
         LOG_DEBUG("Not supported control : %s", control.c_str());
         ret = false;
     }
-
-    parser.finishParseOrThrow();
 
     return pbnjson::JValue{{"returnValue", ret}};
 }

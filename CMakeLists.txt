@@ -43,7 +43,6 @@ pkg_check_modules(PBNJSON_CPP REQUIRED pbnjson_cpp)
 include_directories(${PBNJSON_CPP_INCLUDE_DIRS})
 webos_add_compiler_flags(ALL ${PBNJSON_CPP_CFLAGS_OTHER})
 
-
 pkg_check_modules(LIBDRM REQUIRED libdrm)
 include_directories(${LIBDRM_INCLUDE_DIRS})
 webos_add_compiler_flags(ALL ${LIBDRM})
@@ -52,17 +51,12 @@ pkg_check_modules(GLIB2 REQUIRED glib-2.0)
 include_directories(${GLIB2_INCLUDE_DIRS})
 webos_add_compiler_flags(ALL ${GLIB2_CFLAGS})
 
-pkg_check_modules(LS2HELPERS REQUIRED ls2-helpers)
-include_directories(${LS2HELPERS_INCLUDE_DIRS})
-webos_add_compiler_flags(ALL ${LS2HELPERS_CFLAGS})
-
 pkg_check_modules(UDEV REQUIRED libudev)
 include_directories(${UDEV_INCLUDE_DIRS})
 webos_add_compiler_flags(ALL ${UDEV_CFLAGS_OTHER})
 
 include_directories(${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/src/val)
 file(GLOB SOURCES src/*.cpp src/val/*.cpp)
-
 
 file(MAKE_DIRECTORY "include/public")
 
@@ -79,7 +73,6 @@ set(NO_SONAME)
 add_library(val-rpi SHARED ${SOURCES})
 target_link_libraries(val-rpi
         ${PMLOG_LDFLAGS}
-        ${LS2HELPERS_LDFLAGS}
         ${PBNJSON_CPP_LDFLAGS}
         ${GLIB2_LDFLAGS}
         ${UDEV_LDFLAGS}

@@ -18,7 +18,6 @@
 #include "device_capability.h"
 #include "driElements.h"
 #include "logging.h"
-#include <ls2-helpers/ls2-helpers.hpp>
 #include <unordered_map>
 #include <val_api.h>
 #include <vector>
