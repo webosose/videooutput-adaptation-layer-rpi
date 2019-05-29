@@ -69,6 +69,7 @@ void DRIElements::loadResources()
         if (device.drmModuleFd < 0) {
             // THROW_FATAL_EXCEPTION("Failed to open the card %d", udevNode);
             LOG_ERROR(MSGID_DEVICE_ERROR, 0, "Failed to open  %d", udevNode);
+            break;
         }
 
         /*
@@ -86,6 +87,7 @@ void DRIElements::loadResources()
         drmModeResPtr res = drmModeGetResources(device.drmModuleFd);
         if (!res) {
             LOG_ERROR(MSGID_DEVICE_ERROR, 0, "Failed to get drm resources for %s", device.deviceName);
+            break;
         }
         // build crtc list
         for (int i = 0; i < res->count_crtcs; i++) {
@@ -110,6 +112,7 @@ void DRIElements::loadResources()
 
         if (!planeRes) {
             LOG_ERROR(MSGID_DEVICE_ERROR, 0, "drmModeGetPlaneResources failed: %s\n", strerror(errno));
+            break;
         }
 
         for (size_t i = 0; i < planeRes->count_planes; i++) {

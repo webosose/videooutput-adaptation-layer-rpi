@@ -62,6 +62,14 @@
 static void fill_smpte_yuv_planar(const struct util_yuv_info *yuv, unsigned char *y_mem, unsigned char *u_mem,
                                   unsigned char *v_mem, unsigned int width, unsigned int height, unsigned int stride)
 {
+    if ( !yuv || !y_mem || !u_mem || !v_mem) {
+        printf("ERROR: null ptr\n");
+        return;
+    }
+    if ( width == 0 || height == 0 || stride == 0) {
+        printf("ERROR: resolution information should not be 0\n");
+        return;
+    }
     const struct color_yuv colors_top[] = {
         MAKE_YUV_601(191, 192, 192), /* grey */
         MAKE_YUV_601(192, 192, 0),   /* yellow */
@@ -159,6 +167,15 @@ static void fill_smpte_yuv_planar(const struct util_yuv_info *yuv, unsigned char
 static void fill_smpte_yuv_packed(const struct util_yuv_info *yuv, unsigned char *mem, unsigned int width,
                                   unsigned int height, unsigned int stride)
 {
+
+    if ( !yuv || !mem ) {
+        printf("ERROR: null ptr\n");
+        return;
+    }
+    if ( width == 0 || height == 0 || stride == 0) {
+        printf("ERROR: resolution information should not be 0\n");
+        return;
+    }
     const struct color_yuv colors_top[] = {
         MAKE_YUV_601(191, 192, 192), /* grey */
         MAKE_YUV_601(192, 192, 0),   /* yellow */
@@ -254,6 +271,15 @@ static void fill_smpte_yuv_packed(const struct util_yuv_info *yuv, unsigned char
 static void fill_smpte_rgb16(const struct util_rgb_info *rgb, unsigned char *mem, unsigned int width,
                              unsigned int height, unsigned int stride)
 {
+
+    if ( !rgb || !mem ) {
+        printf("ERROR: null ptr\n");
+        return;
+    }
+    if ( width == 0 || height == 0 || stride == 0) {
+        printf("ERROR: resolution information should not be 0\n");
+        return;
+    }
     const uint16_t colors_top[] = {
         MAKE_RGBA(rgb, 192, 192, 192, 255), /* grey */
         MAKE_RGBA(rgb, 192, 192, 0, 255),   /* yellow */
@@ -311,6 +337,15 @@ static void fill_smpte_rgb16(const struct util_rgb_info *rgb, unsigned char *mem
 static void fill_smpte_rgb24(const struct util_rgb_info *rgb, unsigned char *mem, unsigned int width,
                              unsigned int height, unsigned int stride)
 {
+
+    if ( !rgb || !mem ) {
+        printf("ERROR: null ptr\n");
+        return;
+    }
+    if ( width == 0 || height == 0 || stride == 0) {
+        printf("ERROR: resolution information should not be 0\n");
+        return;
+    }
     const struct color_rgb24 colors_top[] = {
         MAKE_RGB24(rgb, 192, 192, 192), /* grey */
         MAKE_RGB24(rgb, 192, 192, 0),   /* yellow */
@@ -368,6 +403,15 @@ static void fill_smpte_rgb24(const struct util_rgb_info *rgb, unsigned char *mem
 static void fill_smpte_rgb32(const struct util_rgb_info *rgb, unsigned char *mem, unsigned int width,
                              unsigned int height, unsigned int stride)
 {
+
+    if ( !rgb || !mem ) {
+        printf("ERROR: null ptr\n");
+        return;
+    }
+    if ( width == 0 || height == 0 || stride == 0) {
+        printf("ERROR: resolution information should not be 0\n");
+        return;
+    }
     const uint32_t colors_top[] = {
         MAKE_RGBA(rgb, 192, 192, 192, 255), /* grey */
         MAKE_RGBA(rgb, 192, 192, 0, 255),   /* yellow */
@@ -560,13 +604,25 @@ static void make_pwetty(void *data, unsigned int width, unsigned int height, uns
 static void fill_tiles_yuv_planar(const struct util_format_info *info, unsigned char *y_mem, unsigned char *u_mem,
                                   unsigned char *v_mem, unsigned int width, unsigned int height, unsigned int stride)
 {
+
+    if ( !info || !y_mem || !u_mem || !v_mem ) {
+        printf("ERROR: null ptr\n");
+        return;
+    }
+    if ( width == 0 || height == 0 || stride == 0) {
+        printf("ERROR: resolution information should not be 0\n");
+        return;
+    }
     const struct util_yuv_info *yuv = &info->yuv;
     unsigned int cs                 = yuv->chroma_stride;
     unsigned int xsub               = yuv->xsub;
     unsigned int ysub               = yuv->ysub;
     unsigned int x;
     unsigned int y;
-
+    if ( xsub == 0 || ysub == 0 ) {
+        printf("ERROR: xsub / ysub should not be 0\n");
+        return;
+    }
     for (y = 0; y < height; ++y) {
         for (x = 0; x < width; ++x) {
             div_t d                = div((int)x + y, (int)width);
@@ -589,6 +645,15 @@ static void fill_tiles_yuv_planar(const struct util_format_info *info, unsigned 
 static void fill_tiles_yuv_packed(const struct util_format_info *info, unsigned char *mem, unsigned int width,
                                   unsigned int height, unsigned int stride)
 {
+
+    if ( !info || !mem ) {
+        printf("ERROR: null ptr\n");
+        return;
+    }
+    if ( width == 0 || height == 0 || stride == 0 ) {
+        printf("ERROR: resolution information should not be 0\n");
+        return;
+    }
     const struct util_yuv_info *yuv = &info->yuv;
     unsigned char *y_mem            = (yuv->order & YUV_YC) ? (unsigned char *)mem : (unsigned char *)mem + 1;
     unsigned char *c_mem            = (yuv->order & YUV_CY) ? (unsigned char *)mem : (unsigned char *)mem + 1;
@@ -617,6 +682,15 @@ static void fill_tiles_yuv_packed(const struct util_format_info *info, unsigned 
 static void fill_tiles_rgb16(const struct util_format_info *info, unsigned char *mem, unsigned int width,
                              unsigned int height, unsigned int stride)
 {
+
+    if ( !info || !mem ) {
+        printf("ERROR: null ptr\n");
+        return;
+    }
+    if ( width == 0 || height == 0 || stride == 0 ) {
+        printf("ERROR: resolution information should not be 0\n");
+        return;
+    }
     const struct util_rgb_info *rgb = &info->rgb;
     unsigned char *mem_base         = mem;
     unsigned int x, y;
@@ -638,6 +712,15 @@ static void fill_tiles_rgb16(const struct util_format_info *info, unsigned char 
 static void fill_tiles_rgb24(const struct util_format_info *info, unsigned char *mem, unsigned int width,
                              unsigned int height, unsigned int stride)
 {
+
+    if ( !info || !mem ) {
+        printf("ERROR: null ptr\n");
+        return;
+    }
+    if ( width == 0 || height == 0 || stride == 0 ) {
+        printf("ERROR: resolution information should not be 0\n");
+        return;
+    }
     const struct util_rgb_info *rgb = &info->rgb;
     unsigned int x, y;
 
@@ -656,6 +739,15 @@ static void fill_tiles_rgb24(const struct util_format_info *info, unsigned char 
 static void fill_tiles_rgb32(const struct util_format_info *info, unsigned char *mem, unsigned int width,
                              unsigned int height, unsigned int stride)
 {
+
+    if ( !info || !mem ) {
+        printf("ERROR: null ptr\n");
+        return;
+    }
+    if ( width == 0 || height == 0 || stride == 0 ) {
+        printf("ERROR: resolution information should not be 0\n");
+        return;
+    }
     const struct util_rgb_info *rgb = &info->rgb;
     void *mem_base                  = mem;
     unsigned int x, y;
@@ -754,6 +846,10 @@ static void fill_plain(const struct util_format_info *info, void *planes[3], uns
 
 uint32_t util_format_fourcc(const char *name)
 {
+    if ( !name ) {
+        printf("ERROR: Invalid argument\n");
+        return 0;
+    }
     unsigned int i;
 
     for (i = 0; i < ARRAY_SIZE(format_info); i++)
