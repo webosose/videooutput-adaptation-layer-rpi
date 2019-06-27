@@ -175,7 +175,7 @@ bool val_video_impl::setDualVideo(bool enable)
 
 bool val_video_impl::setCompositionParams(std::vector<VAL_WINDOW_INFO_T> zOrder)
 {
-
+#if 0 //RPI doesn't support to set Zorder
     for (size_t i = 0; i < zOrder.size(); ++i) {
         LOG_DEBUG("zorder %d  for wId %d", i, zOrder[i].wId);
         if (!isValidSink(zOrder[i].wId)) {
@@ -194,6 +194,7 @@ bool val_video_impl::setCompositionParams(std::vector<VAL_WINDOW_INFO_T> zOrder)
         LOG_ERROR(MSGID_SET_ZORDER_FAILED, 0, "Failed to apply zorder for sink");
         return false;
     }
+#endif
     return true;
 }
 
