@@ -29,6 +29,9 @@ DRIElements::UDev::UDev(std::function<void(std::string)> fn) : updateFun(fn)
         THROW_FATAL_EXCEPTION("Unable to open udev");
     }
     mon = udev_monitor_new_from_netlink(udev, "udev");
+    if (!mon) {
+        THROW_FATAL_EXCEPTION("Unable to open udev monitor");
+    }
     udev_monitor_filter_add_match_subsystem_devtype(mon, DEVICE_SUBSYSTEM, NULL);
     udev_monitor_enable_receiving(mon);
     fd = udev_monitor_get_fd(mon);
