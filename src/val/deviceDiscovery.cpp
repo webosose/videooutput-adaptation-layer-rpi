@@ -32,23 +32,27 @@ DRIElements::UDev::UDev(std::function<void(std::string)> fn) : updateFun(fn)
     if (!mon) {
         THROW_FATAL_EXCEPTION("Unable to open udev monitor");
     }
-    udev_monitor_filter_add_match_subsystem_devtype(mon, DEVICE_SUBSYSTEM, NULL);
-    udev_monitor_enable_receiving(mon);
+    if (udev_monitor_filter_add_match_subsystem_devtype(mon, DEVICE_SUBSYSTEM, NULL) < 0) {
+	LOG_ERROR(MSGID_UDEV_ERROR, 0, "Unable to match subsystem");
+    }
+    if (udev_monitor_enable_receiving(mon) < 0) {
+	LOG_ERROR(MSGID_UDEV_ERROR, 0, "Unable to enable receiving");
+    }
     fd = udev_monitor_get_fd(mon);
 }
 
 gboolean DRIElements::UDev::pollDRIDevices(gpointer userData)
 {
     fd_set fds;
-    struct timeval tv;
+    struct timeval timeout;
     int ret;
     UDev *uDevMonitor = static_cast<UDev *>(userData);
     FD_ZERO(&fds);
     FD_SET(uDevMonitor->fd, &fds);
-    tv.tv_sec  = 0;
-    tv.tv_usec = 0;
+    timeout.tv_sec  = 0;
+    timeout.tv_usec = 0;
 
-    ret = select(uDevMonitor->fd + 1, &fds, NULL, NULL, &tv);
+    ret = select(uDevMonitor->fd + 1, &fds, NULL, NULL, &timeout);
     if (ret > 0 && FD_ISSET(uDevMonitor->fd, &fds)) {
         struct udev_device *dev = udev_monitor_receive_device(uDevMonitor->mon);
         if (dev) {
