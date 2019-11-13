@@ -30,6 +30,7 @@
 #include <set>
 #include <val/val_video.h>
 #include <functional>
+#include <boost/core/noncopyable.hpp>
 #include "buffers.h"
 #include "edid.h"
 #include "logging.h"
@@ -203,7 +204,7 @@ typedef enum { SET_PLANE_FB_T = 0xff01, SET_Z_ORDER_T = 0xff02, SET_SCALING_T = 
 
 typedef enum { PRIMARY = 0, OVERLAY, CURSOR, NONE } PLANE_TYPES_T;
 
-class DRIElements
+class DRIElements : private boost::noncopyable
 {
 public:
     DRIElements(VAL_VIDEO_SIZE_T defResolution, std::function<void()>);
