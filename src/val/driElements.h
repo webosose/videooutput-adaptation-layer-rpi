@@ -51,6 +51,7 @@ public:
     DrmDisplayMode(const DrmDisplayMode &dm) { mModeInfoPtr = dm.mModeInfoPtr; };
     DrmDisplayMode &operator=(const DrmDisplayMode &dm)
     {
+        if (this == &dm) return *this;
         mModeInfoPtr = dm.mModeInfoPtr;
         return *this;
     };
