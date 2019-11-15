@@ -81,7 +81,7 @@ private:
 public:
     Edid(unsigned char *edid, int size)
     {
-        mBlob = (unsigned char *)malloc(sizeof(unsigned char) * size);
+        mBlob = new unsigned char[size]();
         memcpy(mBlob, edid, size);
         mEdidLen = size;
     }
@@ -90,10 +90,31 @@ public:
 
     Edid(const Edid &other) { Edid(other.mBlob, other.mEdidLen); };
 
+    Edid& operator=(const Edid& other)
+    {
+        // check for self-assignment
+        if (&other == this)
+            return *this;
+
+        if (mBlob) {
+            delete[] mBlob;
+            mBlob = nullptr;
+        }
+
+        unsigned char *edid = other.mBlob;
+        int size = other.mEdidLen;
+
+        mBlob = new unsigned char[size]();
+        memcpy(mBlob, edid, size);
+        mEdidLen = size;
+
+        return *this;
+    }
+
     ~Edid()
     {
         if (mBlob) {
-            delete mBlob;
+            delete[] mBlob;
             mBlob = nullptr;
         }
     }
