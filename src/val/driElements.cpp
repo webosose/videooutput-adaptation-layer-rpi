@@ -68,7 +68,7 @@ void DRIElements::loadResources()
         device.drmModuleFd = open(udevNode.c_str(), O_RDWR | O_CLOEXEC);
         if (device.drmModuleFd < 0) {
             // THROW_FATAL_EXCEPTION("Failed to open the card %d", udevNode);
-            LOG_ERROR(MSGID_DEVICE_ERROR, 0, "Failed to open  %d", udevNode);
+            LOG_ERROR(MSGID_DEVICE_ERROR, 0, "Failed to open %s", udevNode.c_str());
             break;
         }
 
@@ -86,7 +86,7 @@ void DRIElements::loadResources()
         */
         drmModeResPtr res = drmModeGetResources(device.drmModuleFd);
         if (!res) {
-            LOG_ERROR(MSGID_DEVICE_ERROR, 0, "Failed to get drm resources for %s", device.deviceName);
+            LOG_ERROR(MSGID_DEVICE_ERROR, 0, "Failed to get drm resources for %s", device.deviceName.c_str());
             break;
         }
         // build crtc list
@@ -366,7 +366,7 @@ int DriDevice::setActiveMode(DrmCrtc &crtc, const uint32_t width, const uint32_t
         }
 
         if (!conn->isModeSupported(modeStr.str())) {
-            LOG_ERROR(MSGID_INVALID_DISPLAY_MODE, 0, "Mode %s is not supported by %d", modeStr.str(),
+            LOG_ERROR(MSGID_INVALID_DISPLAY_MODE, 0, "Mode %s is not supported by %d", modeStr.str().c_str(),
                       conn->mConnectorPtr->connector_id);
             return -1;
         }
@@ -433,7 +433,7 @@ int DrmCrtc::createScanoutFb(const int fd, const uint32_t width, const uint32_t 
 
     struct bo *bo = bo_create(fd, DEFAULT_PIXEL_FORMAT, width, height, handles, pitches, offsets);
     if (!bo) {
-        LOG_ERROR(MSGID_BUFFER_CREATION_FAILED, 0, "failed to create frame buffers  (%ux%u): (%d)", width, height,
+        LOG_ERROR(MSGID_BUFFER_CREATION_FAILED, 0, "failed to create frame buffers  (%ux%u): (%s)", width, height,
                   strerror(errno));
         return -errno;
     }
