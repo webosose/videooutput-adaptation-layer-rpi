@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2019 LG Electronics, Inc.
+// Copyright (c) 2017-2020 LG Electronics, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -104,7 +104,7 @@ struct DrmConnector {
     std::string mName;
     drmModeConnector *mConnectorPtr = nullptr;
     drmModeObjectProperties *mProps = nullptr;
-    drmModePropertyRes **props_info;
+    drmModePropertyRes **props_info = nullptr;
 
     friend DRIElements;
     friend DriDevice;
