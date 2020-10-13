@@ -114,11 +114,13 @@ bool val_video_impl::disconnect(VAL_VIDEO_WID_T wId)
     }
     videoSinks[wId]->connected = false;
     return true;
+#if 0
     if (!driElements.setPlaneProperties(SET_PLANE_FB_T, videoSinks[wId]->planeId, 0)) {
         LOG_ERROR(MSGID_VIDEO_DISCONNECT_FAILED, 0, "Faild to  set properties for wId %d", wId);
         return false;
     }
     return true;
+#endif
 }
 
 typedef struct {
@@ -206,8 +208,6 @@ bool val_video_impl::setWindowBlanking(VAL_VIDEO_WID_T wId, bool blank, VAL_VIDE
         LOG_ERROR(MSGID_VIDEO_BLANKING_FAILED, 0, "Sink %d is not connected", wId);
         return false;
     }
-#endif
-    return true;
 
     if (blank) {
         /*FIX:PLAT-48894 Scaling is not working sometimes in Youtube app
@@ -236,6 +236,7 @@ bool val_video_impl::setWindowBlanking(VAL_VIDEO_WID_T wId, bool blank, VAL_VIDE
             return false;
         }
     }
+#endif
 
     return true;
 }

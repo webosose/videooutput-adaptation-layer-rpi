@@ -79,14 +79,62 @@ private:
     int mEdidLen         = 0;
 
 public:
-    Edid(unsigned char *edid, int size)
+    Edid(unsigned char *edid, int size):xsize_cm(0),
+    ysize_cm(0),
+    phsync(0),
+    pvsync(0),
+    x_mm(0),
+    y_mm(0),
+    pixel_clock(0),
+    link_clock(0),
+    ha(0),
+    hbl(0),
+    hso(0),
+    hspw(0),
+    hborder(0),
+    va(0),
+    vbl(0),
+    vso(0),
+    vspw(0),
+    vborder(0),
+    x_resolution(0),
+    y_resolution(0),
+    bytes_per_line(0),
+    aspect_landscape(0),
+    aspect_portrait(0),
+    range_class(nullptr),
+    syncmethod(nullptr)
     {
         mBlob = new unsigned char[size]();
         memcpy(mBlob, edid, size);
         mEdidLen = size;
     }
 
-    Edid() {}
+    Edid():xsize_cm(0),
+    ysize_cm(0),
+    phsync(0),
+    pvsync(0),
+    x_mm(0),
+    y_mm(0),
+    pixel_clock(0),
+    link_clock(0),
+    ha(0),
+    hbl(0),
+    hso(0),
+    hspw(0),
+    hborder(0),
+    va(0),
+    vbl(0),
+    vso(0),
+    vspw(0),
+    vborder(0),
+    x_resolution(0),
+    y_resolution(0),
+    bytes_per_line(0),
+    aspect_landscape(0),
+    aspect_portrait(0),
+    range_class(nullptr),
+    syncmethod(nullptr) {}
 
     Edid(const Edid &other) { Edid(other.mBlob, other.mEdidLen); };
 

@@ -22,7 +22,10 @@
 static const char *const DEVICE_SUBSYSTEM              = "drm";
 static constexpr uint32_t DISPLAY_PLUGGED_POLL_TIMEOUT = 250;
 
-DRIElements::UDev::UDev(std::function<void(std::string)> fn) : updateFun(fn)
+DRIElements::UDev::UDev(std::function<void(std::string)> fn) :
+enumerate(nullptr),
+devices(nullptr),
+updateFun(fn)
 {
     udev = udev_new();
     if (!udev) {

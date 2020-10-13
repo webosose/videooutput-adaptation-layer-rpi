@@ -313,10 +313,11 @@ uint32_t DriDevice::findCrtc(DrmConnector &conn)
 uint32_t DriDevice::findCrtc(uint32_t planeId)
 {
     uint32_t crtc_id = 0;
+    uint32_t crtc_index = 0;
     auto plane       = std::find_if(planeList.begin(), planeList.end(),
                               [planeId](DrmPlane &p) { return planeId == p.mDrmPlane->plane_id; });
-
-    uint32_t crtc_index = ffs(plane->mDrmPlane->possible_crtcs) - 1;
+    if (plane != planeList.end())
+        crtc_index = ffs(plane->mDrmPlane->possible_crtcs) - 1;
 
     auto crtc =
         std::find_if(crtcList.begin(), crtcList.end(), [crtc_index](DrmCrtc &c) { return crtc_index == c.crtc_index; });
@@ -360,7 +361,8 @@ int DriDevice::setActiveMode(DrmCrtc &crtc, const uint32_t width, const uint32_t
     for (auto connId : crtc.connectors) {
         auto conn = std::find_if(connectorList.begin(), connectorList.end(),
                                  [connId](DrmConnector &c) { return c.mConnectorPtr->connector_id == connId; });
-        if (!conn->isPlugged()) {
+
+        if (conn == connectorList.end() || !conn->isPlugged()) {
             LOG_DEBUG("ignoring unused connector %d", connId);
             continue;
         }
