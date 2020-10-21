@@ -79,7 +79,18 @@ private:
     int mEdidLen         = 0;
 
 public:
-    Edid(unsigned char *edid, int size):xsize_cm(0),
+    Edid(unsigned char *edid, int size):model(0),
+    serial(0),
+    year(0),
+    week(0),
+    nonconformant(0),
+    type(0),
+    bpp(0),
+    xres(0),
+    yres(0),
+    voltage(0),
+    sync(0),
+    xsize_cm(0),
     ysize_cm(0),
     phsync(0),
     pvsync(0),
@@ -103,14 +114,26 @@ public:
     aspect_landscape(0),
     aspect_portrait(0),
     range_class(nullptr),
-    syncmethod(nullptr)
+    syncmethod(nullptr),
+    stereo(nullptr)
     {
         mBlob = new unsigned char[size]();
         memcpy(mBlob, edid, size);
         mEdidLen = size;
     }
 
-    Edid():xsize_cm(0),
+    Edid():model(0),
+    serial(0),
+    year(0),
+    week(0),
+    nonconformant(0),
+    type(0),
+    bpp(0),
+    xres(0),
+    yres(0),
+    voltage(0),
+    sync(0),
+    xsize_cm(0),
     ysize_cm(0),
     phsync(0),
     pvsync(0),
@@ -134,9 +157,47 @@ public:
     aspect_landscape(0),
     aspect_portrait(0),
     range_class(nullptr),
-    syncmethod(nullptr) {}
+    syncmethod(nullptr),
+    stereo(nullptr) {}
 
-    Edid(const Edid &other) { Edid(other.mBlob, other.mEdidLen); };
+    Edid(const Edid &other):model(0),
+    serial(0),
+    year(0),
+    week(0),
+    nonconformant(0),
+    type(0),
+    bpp(0),
+    xres(0),
+    yres(0),
+    voltage(0),
+    sync(0),
+    xsize_cm(0),
+    ysize_cm(0),
+    phsync(0),
+    pvsync(0),
+    x_mm(0),
+    y_mm(0),
+    pixel_clock(0),
+    link_clock(0),
+    ha(0),
+    hbl(0),
+    hso(0),
+    hspw(0),
+    hborder(0),
+    va(0),
+    vbl(0),
+    vso(0),
+    vspw(0),
+    vborder(0),
+    x_resolution(0),
+    y_resolution(0),
+    bytes_per_line(0),
+    aspect_landscape(0),
+    aspect_portrait(0),
+    range_class(nullptr),
+    syncmethod(nullptr),
+    stereo(nullptr)
+    { Edid(other.mBlob, other.mEdidLen); };
 
     Edid& operator=(const Edid& other)
     {
